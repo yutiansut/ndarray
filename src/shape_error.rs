@@ -19,9 +19,9 @@ impl Error for ShapeError {
     fn description(&self) -> &str {
         match *self {
             ShapeError::IncompatibleShapes(..) =>
-                "incompatible shapes",
+                "incompatible shapes in reshape",
             ShapeError::IncompatibleLayout =>
-                "incompatible layout (not contiguous)",
+                "incompatible layout: not not contiguous",
             ShapeError::DimensionTooLarge(..) =>
                 "dimension too large",
         }
