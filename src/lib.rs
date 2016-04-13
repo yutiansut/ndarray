@@ -7,7 +7,7 @@
 // except according to those terms.
 #![crate_name="ndarray"]
 #![cfg_attr(has_deprecated, feature(deprecated))]
-#![doc(html_root_url = "http://bluss.github.io/rust-ndarray/master/")]
+#![doc(html_root_url = "http://bluss.github.io/rust-ndarray/0.4/")]
 
 //! The `ndarray` crate provides an N-dimensional container for general elements
 //! and for numerics.
