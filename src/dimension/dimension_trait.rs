@@ -32,7 +32,7 @@ use super::axes_of;
 /// dimensions and indices.
 ///
 /// ***Note:*** *Don't implement this trait.*
-pub unsafe trait Dimension : Clone + Eq + Debug + Send + Sync + Default +
+pub unsafe trait Dimension : 'static + Clone + Eq + Debug + Send + Sync + Default +
     IndexMut<usize, Output=usize> +
     Add<Self, Output=Self> +
     AddAssign + for<'x> AddAssign<&'x Self> +
