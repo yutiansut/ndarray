@@ -670,7 +670,11 @@ impl<'a, A, D> DoubleEndedIterator for AxisIter<'a, A, D>
 
 impl<'a, A, D> ExactSizeIterator for AxisIter<'a, A, D>
     where D: Dimension
-{}
+{
+    fn len(&self) -> usize {
+        self.size_hint().0
+    }
+}
 
 pub fn new_outer_iter<A, D>(v: ArrayView<A, D>) -> AxisIter<A, D::Smaller>
     where D: RemoveAxis
@@ -749,7 +753,11 @@ impl<'a, A, D> DoubleEndedIterator for AxisIterMut<'a, A, D>
 
 impl<'a, A, D> ExactSizeIterator for AxisIterMut<'a, A, D>
     where D: Dimension
-{}
+{
+    fn len(&self) -> usize {
+        self.size_hint().0
+    }
+}
 
 pub fn new_outer_iter_mut<A, D>(v: ArrayViewMut<A, D>) -> AxisIterMut<A, D::Smaller>
     where D: RemoveAxis
