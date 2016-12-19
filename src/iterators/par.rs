@@ -171,10 +171,10 @@ macro_rules! par_iter_view_wrapper {
             (a, b)
         }
 
-        fn fold_using<F>(self, folder: F) -> F::Result
+        fn fold_with<F>(self, folder: F) -> F
             where F: Folder<Self::Item>,
         {
-            self.into_iter().fold(folder, |f, elt| f.consume(elt)).complete()
+            self.into_iter().fold(folder, |f, elt| f.consume(elt))
         }
     }
 
