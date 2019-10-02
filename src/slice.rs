@@ -46,6 +46,7 @@ impl Slice {
     ///
     /// `step` must be nonzero.
     /// (This method checks with a debug assertion that `step` is not zero.)
+    #[inline]
     pub fn new(start: isize, end: Option<isize>, step: isize) -> Slice {
         debug_assert_ne!(step, 0, "Slice::new: step must be nonzero");
         Slice { start, end, step }
@@ -108,6 +109,7 @@ copy_and_clone! {SliceOrIndex}
 
 impl SliceOrIndex {
     /// Returns `true` if `self` is a `Slice` value.
+    #[inline]
     pub fn is_slice(&self) -> bool {
         match self {
             SliceOrIndex::Slice { .. } => true,
@@ -116,6 +118,7 @@ impl SliceOrIndex {
     }
 
     /// Returns `true` if `self` is an `Index` value.
+    #[inline]
     pub fn is_index(&self) -> bool {
         match self {
             SliceOrIndex::Index(_) => true,
@@ -300,6 +303,7 @@ where
     D: Dimension,
 {
     type Target = T;
+    #[inline(always)]
     fn deref(&self) -> &Self::Target {
         &self.indices
     }
@@ -418,6 +422,7 @@ pub trait SliceNextDim<D1, D2> {
 macro_rules! impl_slicenextdim_equal {
     ($self:ty) => {
         impl<D1: Dimension> SliceNextDim<D1, D1> for $self {
+            #[inline(always)]
             fn next_dim(&self, _: PhantomData<D1>) -> PhantomData<D1> {
                 PhantomData
             }
@@ -431,6 +436,7 @@ impl_slicenextdim_equal!(i32);
 macro_rules! impl_slicenextdim_larger {
     (($($generics:tt)*), $self:ty) => {
         impl<D1: Dimension, $($generics)*> SliceNextDim<D1, D1::Larger> for $self {
+            #[inline(always)]
             fn next_dim(&self, _: PhantomData<D1>) -> PhantomData<D1::Larger> {
                 PhantomData
             }

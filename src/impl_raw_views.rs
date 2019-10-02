@@ -14,7 +14,6 @@ where
     ///
     /// Unsafe because caller is responsible for ensuring that the array will
     /// meet all of the invariants of the `ArrayBase` type.
-    #[inline]
     pub(crate) unsafe fn new(ptr: NonNull<A>, dim: D, strides: D) -> Self {
         RawArrayView {
             data: RawViewRepr::new(),
@@ -148,7 +147,6 @@ where
     ///
     /// Unsafe because caller is responsible for ensuring that the array will
     /// meet all of the invariants of the `ArrayBase` type.
-    #[inline]
     pub(crate) unsafe fn new(ptr: NonNull<A>, dim: D, strides: D) -> Self {
         RawArrayViewMut {
             data: RawViewRepr::new(),

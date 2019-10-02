@@ -93,6 +93,7 @@ where
 {
     type Dim = D;
     type Strides = D;
+    #[inline(always)]
     fn into_shape(self) -> Shape<D> {
         self
     }

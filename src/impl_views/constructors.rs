@@ -218,7 +218,6 @@ where
     /// Create a new `ArrayView`
     ///
     /// Unsafe because: `ptr` must be valid for the given dimension and strides.
-    #[inline(always)]
     pub(crate) unsafe fn new(ptr: NonNull<A>, dim: D, strides: D) -> Self {
         if cfg!(debug_assertions) {
             assert!(is_aligned(ptr.as_ptr()), "The pointer must be aligned.");
@@ -233,7 +232,6 @@ where
     }
 
     /// Unsafe because: `ptr` must be valid for the given dimension and strides.
-    #[inline]
     pub(crate) unsafe fn new_(ptr: *const A, dim: D, strides: D) -> Self {
         Self::new(nonnull_debug_checked_from_ptr(ptr as *mut A), dim, strides)
     }
@@ -246,7 +244,6 @@ where
     /// Create a new `ArrayView`
     ///
     /// Unsafe because: `ptr` must be valid for the given dimension and strides.
-    #[inline(always)]
     pub(crate) unsafe fn new(ptr: NonNull<A>, dim: D, strides: D) -> Self {
         if cfg!(debug_assertions) {
             assert!(is_aligned(ptr.as_ptr()), "The pointer must be aligned.");
@@ -263,7 +260,6 @@ where
     /// Create a new `ArrayView`
     ///
     /// Unsafe because: `ptr` must be valid for the given dimension and strides.
-    #[inline(always)]
     pub(crate) unsafe fn new_(ptr: *mut A, dim: D, strides: D) -> Self {
         Self::new(nonnull_debug_checked_from_ptr(ptr), dim, strides)
     }

@@ -666,7 +666,6 @@ pub fn general_mat_vec_mul<A, S1, S2, S3>(
     }
 }
 
-#[inline(always)]
 /// Return `true` if `A` and `B` are the same type
 fn same_type<A: 'static, B: 'static>() -> bool {
     TypeId::of::<A>() == TypeId::of::<B>()

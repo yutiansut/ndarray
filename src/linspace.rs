@@ -23,7 +23,6 @@ where
 {
     type Item = F;
 
-    #[inline]
     fn next(&mut self) -> Option<F> {
         if self.index >= self.len {
             None
@@ -35,7 +34,6 @@ where
         }
     }
 
-    #[inline]
     fn size_hint(&self) -> (usize, Option<usize>) {
         let n = self.len - self.index;
         (n, Some(n))
@@ -46,7 +44,6 @@ impl<F> DoubleEndedIterator for Linspace<F>
 where
     F: Float,
 {
-    #[inline]
     fn next_back(&mut self) -> Option<F> {
         if self.index >= self.len {
             None
@@ -69,7 +66,6 @@ impl<F> ExactSizeIterator for Linspace<F> where Linspace<F>: Iterator {}
 /// `f32` or `f64`.
 ///
 /// **Panics** if converting `n - 1` to type `F` fails.
-#[inline]
 pub fn linspace<F>(a: F, b: F, n: usize) -> Linspace<F>
 where
     F: Float,
@@ -97,7 +93,6 @@ where
 /// `f32` or `f64`.
 ///
 /// **Panics** if converting `((b - a) / step).ceil()` to type `F` fails.
-#[inline]
 pub fn range<F>(a: F, b: F, step: F) -> Linspace<F>
 where
     F: Float,

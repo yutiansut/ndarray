@@ -42,7 +42,6 @@ impl<A, D: Dimension> Baseiter<A, D> {
     /// Creating a Baseiter is unsafe because shape and stride parameters need
     /// to be correct to avoid performing an unsafe pointer offset while
     /// iterating.
-    #[inline]
     pub unsafe fn new(ptr: *mut A, len: D, stride: D) -> Baseiter<A, D> {
         Baseiter {
             ptr,
@@ -56,7 +55,6 @@ impl<A, D: Dimension> Baseiter<A, D> {
 impl<A, D: Dimension> Iterator for Baseiter<A, D> {
     type Item = *mut A;
 
-    #[inline]
     fn next(&mut self) -> Option<*mut A> {
         let index = match self.index {
             None => return None,
@@ -116,7 +114,6 @@ impl<'a, A, D: Dimension> ExactSizeIterator for Baseiter<A, D> {
 }
 
 impl<A> DoubleEndedIterator for Baseiter<A, Ix1> {
-    #[inline]
     fn next_back(&mut self) -> Option<*mut A> {
         let index = match self.index {
             None => return None,
@@ -203,7 +200,6 @@ impl<'a, A, D: Dimension> ElementsBase<'a, A, D> {
 
 impl<'a, A, D: Dimension> Iterator for ElementsBase<'a, A, D> {
     type Item = &'a A;
-    #[inline]
     fn next(&mut self) -> Option<&'a A> {
         self.inner.next().map(|p| unsafe { &*p })
     }
@@ -221,7 +217,6 @@ impl<'a, A, D: Dimension> Iterator for ElementsBase<'a, A, D> {
 }
 
 impl<'a, A> DoubleEndedIterator for ElementsBase<'a, A, Ix1> {
-    #[inline]
     fn next_back(&mut self) -> Option<&'a A> {
         self.inner.next_back().map(|p| unsafe { &*p })
     }
@@ -476,7 +471,6 @@ where
 
 impl<'a, A, D: Dimension> Iterator for IndexedIter<'a, A, D> {
     type Item = (D::Pattern, &'a A);
-    #[inline]
     fn next(&mut self) -> Option<Self::Item> {
         let index = match self.0.inner.index {
             None => return None,
@@ -646,7 +640,6 @@ where
 
 impl<'a, A, D: Dimension> Iterator for IndexedIterMut<'a, A, D> {
     type Item = (D::Pattern, &'a mut A);
-    #[inline]
     fn next(&mut self) -> Option<Self::Item> {
         let index = match self.0.inner.index {
             None => return None,
@@ -809,7 +802,6 @@ impl<A, D: Dimension> AxisIterCore<A, D> {
         }
     }
 
-    #[inline]
     unsafe fn offset(&self, index: usize) -> *mut A {
         debug_assert!(
             index < self.end,

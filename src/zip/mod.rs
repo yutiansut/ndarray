@@ -320,6 +320,7 @@ impl<'a, A, D: Dimension> NdProducer for ArrayView<'a, A, D> {
     }
 
     #[doc(hidden)]
+    #[inline(always)]
     unsafe fn as_ref(&self, ptr: *mut A) -> Self::Item {
         &*ptr
     }
@@ -373,6 +374,7 @@ impl<'a, A, D: Dimension> NdProducer for ArrayViewMut<'a, A, D> {
     }
 
     #[doc(hidden)]
+    #[inline(always)]
     unsafe fn as_ref(&self, ptr: *mut A) -> Self::Item {
         &mut *ptr
     }
@@ -426,6 +428,7 @@ impl<A, D: Dimension> NdProducer for RawArrayView<A, D> {
     }
 
     #[doc(hidden)]
+    #[inline(always)]
     unsafe fn as_ref(&self, ptr: *const A) -> *const A {
         ptr
     }
@@ -479,6 +482,7 @@ impl<A, D: Dimension> NdProducer for RawArrayViewMut<A, D> {
     }
 
     #[doc(hidden)]
+    #[inline(always)]
     unsafe fn as_ref(&self, ptr: *mut A) -> *mut A {
         ptr
     }
