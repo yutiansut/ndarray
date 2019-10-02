@@ -77,8 +77,11 @@ pub fn dim_stride_overlap<D: Dimension>(dim: &D, strides: &D) -> bool {
 /// (The data buffer being a slice or `Vec` guarantees that it contains no more
 /// than `isize::MAX` bytes.)
 pub fn size_of_shape_checked<D: Dimension>(dim: &D) -> Result<usize, ShapeError> {
+    size_of_shape_checked_inner(dim.slice())
+}
+
+fn size_of_shape_checked_inner(dim: &[usize]) -> Result<usize, ShapeError> {
     let size_nonzero = dim
-        .slice()
         .iter()
         .filter(|&&d| d != 0)
         .try_fold(1usize, |acc, &d| acc.checked_mul(d))
@@ -86,7 +89,7 @@ pub fn size_of_shape_checked<D: Dimension>(dim: &D) -> Result<usize, ShapeError>
     if size_nonzero > ::std::isize::MAX as usize {
         Err(from_kind(ErrorKind::Overflow))
     } else {
-        Ok(dim.size())
+        Ok(dim.iter().product::<usize>())
     }
 }
 
@@ -217,12 +220,22 @@ pub fn can_index_slice<A, D: Dimension>(
     // Check conditions 1 and 2 and calculate `max_offset`.
     let max_offset = max_abs_offset_check_overflow::<A, _>(dim, strides)?;
 
+    can_index_slice_inner(data.len(), max_offset, dim, strides)
+}
+
+fn can_index_slice_inner<D: Dimension>(
+    data_len: usize,
+    max_offset: usize,
+    dim: &D,
+    strides: &D,
+) -> Result<(), ShapeError> {
+
     // Check condition 4.
     let is_empty = dim.slice().iter().any(|&d| d == 0);
-    if is_empty && max_offset > data.len() {
+    if is_empty && max_offset > data_len {
         return Err(from_kind(ErrorKind::OutOfBounds));
     }
-    if !is_empty && max_offset >= data.len() {
+    if !is_empty && max_offset >= data_len {
         return Err(from_kind(ErrorKind::OutOfBounds));
     }
 
