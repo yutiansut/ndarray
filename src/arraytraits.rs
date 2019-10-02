@@ -26,7 +26,6 @@ pub(crate) fn array_out_of_bounds() -> ! {
     panic!("ndarray: index out of bounds");
 }
 
-#[inline(always)]
 pub fn debug_bounds_check<S, D, I>(_a: &ArrayBase<S, D>, _index: &I)
 where
     D: Dimension,
@@ -46,7 +45,6 @@ where
     S: Data,
 {
     type Output = S::Elem;
-    #[inline]
     fn index(&self, index: I) -> &S::Elem {
         debug_bounds_check!(self, index);
         unsafe {
@@ -68,7 +66,6 @@ where
     I: NdIndex<D>,
     S: DataMut,
 {
-    #[inline]
     fn index_mut(&mut self, index: I) -> &mut S::Elem {
         debug_bounds_check!(self, index);
         unsafe {

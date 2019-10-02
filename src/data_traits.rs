@@ -158,6 +158,7 @@ unsafe impl<A> RawDataClone for RawViewRepr<*const A> {
 
 unsafe impl<A> RawData for RawViewRepr<*mut A> {
     type Elem = A;
+    #[inline(always)]
     fn _data_slice(&self) -> Option<&[A]> {
         None
     }
@@ -165,7 +166,7 @@ unsafe impl<A> RawData for RawViewRepr<*mut A> {
 }
 
 unsafe impl<A> RawDataMut for RawViewRepr<*mut A> {
-    #[inline]
+    #[inline(always)]
     fn try_ensure_unique<D>(_: &mut ArrayBase<Self, D>)
     where
         Self: Sized,
@@ -173,7 +174,7 @@ unsafe impl<A> RawDataMut for RawViewRepr<*mut A> {
     {
     }
 
-    #[inline]
+    #[inline(always)]
     fn try_is_unique(&mut self) -> Option<bool> {
         None
     }
@@ -187,6 +188,7 @@ unsafe impl<A> RawDataClone for RawViewRepr<*mut A> {
 
 unsafe impl<A> RawData for OwnedArcRepr<A> {
     type Elem = A;
+    #[inline(always)]
     fn _data_slice(&self) -> Option<&[A]> {
         Some(&self.0)
     }
@@ -263,6 +265,7 @@ unsafe impl<A> RawDataClone for OwnedArcRepr<A> {
 
 unsafe impl<A> RawData for OwnedRepr<A> {
     type Elem = A;
+    #[inline(always)]
     fn _data_slice(&self) -> Option<&[A]> {
         Some(&self.0)
     }
@@ -270,7 +273,7 @@ unsafe impl<A> RawData for OwnedRepr<A> {
 }
 
 unsafe impl<A> RawDataMut for OwnedRepr<A> {
-    #[inline]
+    #[inline(always)]
     fn try_ensure_unique<D>(_: &mut ArrayBase<Self, D>)
     where
         Self: Sized,
@@ -278,14 +281,14 @@ unsafe impl<A> RawDataMut for OwnedRepr<A> {
     {
     }
 
-    #[inline]
+    #[inline(always)]
     fn try_is_unique(&mut self) -> Option<bool> {
         Some(true)
     }
 }
 
 unsafe impl<A> Data for OwnedRepr<A> {
-    #[inline]
+    #[inline(always)]
     fn into_owned<D>(self_: ArrayBase<Self, D>) -> ArrayBase<OwnedRepr<Self::Elem>, D>
     where
         A: Clone,
@@ -329,6 +332,7 @@ where
 
 unsafe impl<'a, A> RawData for ViewRepr<&'a A> {
     type Elem = A;
+    #[inline(always)]
     fn _data_slice(&self) -> Option<&[A]> {
         None
     }
@@ -353,6 +357,7 @@ unsafe impl<'a, A> RawDataClone for ViewRepr<&'a A> {
 
 unsafe impl<'a, A> RawData for ViewRepr<&'a mut A> {
     type Elem = A;
+    #[inline(always)]
     fn _data_slice(&self) -> Option<&[A]> {
         None
     }
@@ -360,7 +365,7 @@ unsafe impl<'a, A> RawData for ViewRepr<&'a mut A> {
 }
 
 unsafe impl<'a, A> RawDataMut for ViewRepr<&'a mut A> {
-    #[inline]
+    #[inline(always)]
     fn try_ensure_unique<D>(_: &mut ArrayBase<Self, D>)
     where
         Self: Sized,
@@ -368,7 +373,7 @@ unsafe impl<'a, A> RawDataMut for ViewRepr<&'a mut A> {
     {
     }
 
-    #[inline]
+    #[inline(always)]
     fn try_is_unique(&mut self) -> Option<bool> {
         Some(true)
     }
@@ -425,6 +430,7 @@ unsafe impl<A> DataOwned for OwnedArcRepr<A> {
         OwnedArcRepr(Arc::new(elements))
     }
 
+    #[inline(always)]
     fn into_shared(self) -> OwnedRcRepr<A> {
         self
     }
@@ -445,7 +451,6 @@ unsafe impl<'a, A> RawDataMut for CowRepr<'a, A>
 where
     A: Clone,
 {
-    #[inline]
     fn try_ensure_unique<D>(array: &mut ArrayBase<Self, D>)
     where
         Self: Sized,

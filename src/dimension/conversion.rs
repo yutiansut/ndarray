@@ -72,7 +72,7 @@ impl IntoDimension for IxDynImpl {
 
 impl IntoDimension for Vec<Ix> {
     type Dim = IxDyn;
-    #[inline(always)]
+    #[inline]
     fn into_dimension(self) -> Self::Dim {
         Dim::new(IxDynImpl::from(self))
     }
@@ -134,7 +134,7 @@ macro_rules! tuple_to_array {
 
         impl IntoDimension for index!(tuple_type [Ix] $n) {
             type Dim = Dim<[Ix; $n]>;
-            #[inline(always)]
+            #[inline]
             fn into_dimension(self) -> Self::Dim {
                 Dim::new(index!(array_expr [self] $n))
             }
@@ -142,14 +142,14 @@ macro_rules! tuple_to_array {
 
         impl Index<usize> for Dim<[Ix; $n]> {
             type Output = usize;
-            #[inline(always)]
+            #[inline]
             fn index(&self, index: usize) -> &Self::Output {
                 &self.ix()[index]
             }
         }
 
         impl IndexMut<usize> for Dim<[Ix; $n]> {
-            #[inline(always)]
+            #[inline]
             fn index_mut(&mut self, index: usize) -> &mut Self::Output {
                 &mut self.ixm()[index]
             }

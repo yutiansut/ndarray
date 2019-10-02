@@ -114,7 +114,7 @@ unsafe impl NdIndex<IxDyn> for Ix {
         debug_assert_eq!(dim.ndim(), 1);
         stride_offset_checked(dim.ix(), strides.ix(), &[*self])
     }
-    #[inline(always)]
+    #[inline]
     fn index_unchecked(&self, strides: &IxDyn) -> isize {
         debug_assert_eq!(strides.ndim(), 1);
         stride_offset(*self, get!(strides, 0))
@@ -199,24 +199,29 @@ ndindex_with_array! {
 
 impl<'a> IntoDimension for &'a [Ix] {
     type Dim = IxDyn;
+    #[inline]
     fn into_dimension(self) -> Self::Dim {
         Dim(IxDynImpl::from(self))
     }
 }
 
 unsafe impl<'a> NdIndex<IxDyn> for &'a IxDyn {
+    #[inline]
     fn index_checked(&self, dim: &IxDyn, strides: &IxDyn) -> Option<isize> {
         (**self).index_checked(dim, strides)
     }
+    #[inline]
     fn index_unchecked(&self, strides: &IxDyn) -> isize {
         (**self).index_unchecked(strides)
     }
 }
 
 unsafe impl<'a> NdIndex<IxDyn> for &'a [Ix] {
+    #[inline]
     fn index_checked(&self, dim: &IxDyn, strides: &IxDyn) -> Option<isize> {
         stride_offset_checked(dim.ix(), strides.ix(), *self)
     }
+    #[inline]
     fn index_unchecked(&self, strides: &IxDyn) -> isize {
         zip(strides.ix(), *self)
             .map(|(&s, &i)| stride_offset(i, s))

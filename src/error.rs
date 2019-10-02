@@ -18,12 +18,13 @@ pub struct ShapeError {
 
 impl ShapeError {
     /// Return the `ErrorKind` of this error.
-    #[inline]
+    #[inline(always)]
     pub fn kind(&self) -> ErrorKind {
         self.repr
     }
 
     /// Create a new `ShapeError`
+    #[inline(always)]
     pub fn from_kind(error: ErrorKind) -> Self {
         from_kind(error)
     }
@@ -57,14 +58,14 @@ pub fn from_kind(k: ErrorKind) -> ShapeError {
 }
 
 impl PartialEq for ErrorKind {
-    #[inline(always)]
+    #[inline]
     fn eq(&self, rhs: &Self) -> bool {
         *self as u8 == *rhs as u8
     }
 }
 
 impl PartialEq for ShapeError {
-    #[inline(always)]
+    #[inline]
     fn eq(&self, rhs: &Self) -> bool {
         self.repr == rhs.repr
     }

@@ -379,15 +379,15 @@ impl Dimension for Dim<[Ix; 0]> {
     type Smaller = Self;
     type Larger = Ix1;
     // empty product is 1 -> size is 1
-    #[inline]
+    #[inline(always)]
     fn ndim(&self) -> usize {
         0
     }
-    #[inline]
+    #[inline(always)]
     fn slice(&self) -> &[Ix] {
         &[]
     }
-    #[inline]
+    #[inline(always)]
     fn slice_mut(&mut self) -> &mut [Ix] {
         &mut []
     }
@@ -395,20 +395,20 @@ impl Dimension for Dim<[Ix; 0]> {
     fn _fastest_varying_stride_order(&self) -> Self {
         Ix0()
     }
-    #[inline]
+    #[inline(always)]
     fn into_pattern(self) -> Self::Pattern {}
     #[inline]
     fn zeros(ndim: usize) -> Self {
         assert_eq!(ndim, 0);
         Self::default()
     }
-    #[inline]
+    #[inline(always)]
     fn next_for(&self, _index: Self) -> Option<Self> {
         None
     }
     #[inline]
     impl_insert_axis_array!(0);
-    #[inline]
+    #[inline(always)]
     fn try_remove_axis(&self, _ignore: Axis) -> Self::Smaller {
         *self
     }
@@ -422,7 +422,7 @@ impl Dimension for Dim<[Ix; 1]> {
     type Pattern = Ix;
     type Smaller = Ix0;
     type Larger = Ix2;
-    #[inline]
+    #[inline(always)]
     fn ndim(&self) -> usize {
         1
     }
@@ -530,7 +530,7 @@ impl Dimension for Dim<[Ix; 2]> {
     type Pattern = (Ix, Ix);
     type Smaller = Ix1;
     type Larger = Ix3;
-    #[inline]
+    #[inline(always)]
     fn ndim(&self) -> usize {
         2
     }
@@ -648,7 +648,7 @@ impl Dimension for Dim<[Ix; 2]> {
     }
 
     /// Self is an index, return the stride offset
-    #[inline(always)]
+    #[inline]
     fn stride_offset(index: &Self, strides: &Self) -> isize {
         let i = get!(index, 0);
         let j = get!(index, 1);
@@ -687,7 +687,7 @@ impl Dimension for Dim<[Ix; 3]> {
     type Pattern = (Ix, Ix, Ix);
     type Smaller = Ix2;
     type Larger = Ix4;
-    #[inline]
+    #[inline(always)]
     fn ndim(&self) -> usize {
         3
     }
@@ -810,7 +810,7 @@ macro_rules! large_dim {
             type Pattern = $pattern;
             type Smaller = Dim<[Ix; $n - 1]>;
             type Larger = $larger;
-            #[inline]
+            #[inline(always)]
             fn ndim(&self) -> usize { $n }
             #[inline]
             fn into_pattern(self) -> Self::Pattern {
@@ -906,12 +906,14 @@ impl Dimension for IxDyn {
 
 impl Index<usize> for Dim<IxDynImpl> {
     type Output = <IxDynImpl as Index<usize>>::Output;
+    #[inline]
     fn index(&self, index: usize) -> &Self::Output {
         &self.ix()[index]
     }
 }
 
 impl IndexMut<usize> for Dim<IxDynImpl> {
+    #[inline]
     fn index_mut(&mut self, index: usize) -> &mut Self::Output {
         &mut self.ixm()[index]
     }
