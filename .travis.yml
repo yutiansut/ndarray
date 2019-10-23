@@ -1,25 +1,10 @@
 language: rust
-# use trusty for newer openblas
 sudo: required
-dist: trusty
+dist: bionic
 matrix:
   include:
-    - rust: 1.37.0
-      env:
-       - FEATURES='test docs'
-       - RUSTFLAGS='-D warnings'
-    - rust: stable
-      env:
-       - FEATURES='test docs'
-       - RUSTFLAGS='-D warnings'
-    - rust: beta
-      env:
-       - FEATURES='test docs'
-       - CHANNEL='beta'
-       - RUSTFLAGS='-D warnings'
     - rust: nightly
       env:
-       - FEATURES='test docs'
        - CHANNEL='nightly'
 env:
   global:
