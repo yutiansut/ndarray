@@ -25,6 +25,7 @@ env:
   global:
     - HOST=x86_64-unknown-linux-gnu
     - CARGO_INCREMENTAL=0
+    - RUSTFLAGS="-Clink-arg=-fuse-ld=lld"
 addons:
   apt:
     packages:
