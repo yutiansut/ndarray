@@ -5,6 +5,7 @@ matrix:
   include:
     - rust: nightly
       env:
+       - FEATURES='test docs'
        - CHANNEL='nightly'
 env:
   global:
